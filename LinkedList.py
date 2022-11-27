@@ -128,7 +128,6 @@ class LinkedList:
                 walker1 = walker2
                 walker2 = walker2.get_next()
                 i += 1
-            print(walker1, walker2)
             #here walker1 is just before the index and walker2 just after
             toInsert = Cell(content, walker2)
             walker1.set_next(toInsert)
@@ -144,12 +143,29 @@ class LinkedList:
             i+= 1
         return walker.get_content()
 
+    def popAtIndex(self, index):
+        assert not(index < 0 or index >= self.length())
+        if(index == 0):
+            return self.pop()#head
+        elif(index == self.length()-1):
+            return self.popTail()
+        else:
+            walker1 = self._head
+            walker2 = self._head
+            i = 0
+            while(i < index):
+                walker1 = walker2
+                walker2 = walker2.get_next()
+                i += 1
+            print(walker1, walker2)
+            #here walker1 is just before the index and walker2 on the index
+            walker1.set_next(walker2.get_next())
+            return walker2.get_content()
 
 
 l = LinkedList()
 
 l.pushTail(5)
-
 l.pushTail(8)
 
 l.pushTail(-2)
@@ -158,8 +174,13 @@ l.pushTail(-55.9)
 l.push(13.2)
 l.push(-1)
 
+
 print(l)
+"""
 print("head", l.get_head(), "tail", l.get_tail(), "length", l.length())
 print(l)
 for i in range(l.length()):
     print(l.get(i))
+"""
+print(l.popAtIndex(1))
+print(l)
