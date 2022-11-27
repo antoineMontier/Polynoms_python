@@ -23,6 +23,23 @@ class LinkedList:
             newHead = Cell(content, self._head)
             self._head = newHead
 
+    def pushTail(self, content):
+        #handle empty list
+        if(self.isEmpty()):
+            newTail = Cell(content, None)
+            self._head = newTail
+            self._tail = newTail
+        #handle one element list
+        elif(self._head == self._tail):
+            newTail = Cell(content, None)
+            self._head.set_next(newTail)
+            self._tail = newTail
+        else:
+            #find cell before tail
+            newTail = Cell(content, None)
+            self._tail.set_next(newTail)
+            self._tail = newTail
+
     def __str__(self):
         if(self.isEmpty()):
             return "[empty]"
@@ -72,21 +89,68 @@ class LinkedList:
             self._tail = walker
             return res #end
 
+    def length(self):
+        if(self.isEmpty()):
+            return 0
+        elif(self._head == self._tail):#one element exception
+            return 1
+        else:
+            res = 2
+            walker = Cell(self._head.get_content(), self._head.get_next())
+            while(walker.get_next() != self._tail):
+                res += 1
+                walker = walker.get_next()
+            return res
 
+
+
+
+    def pushAtIndex(self, content, index):  #returns 1 if sucessful ; 0 if not
+        if(index < 0 or index > self.length()):
+            return 0 #error
+        elif(index == 0):
+            self.push(content)
+            return 1
+        elif(index == self.length()):
+            self.pushTail(content)
+            return 1
+        else:
+            """
+            if(self.length() == 2 and index == 1):
+                toInsert = Cell(content, self._tail)
+                self._head.set_next(toInsert)
+                return 1
+            """
+            walker1 = self._head
+            walker2 = self._head
+            i = 0
+            while(i < index):
+                walker1 = walker2
+                walker2 = walker2.get_next()
+                i += 1
+            print(walker1, walker2)
+            #here walker1 is just before the index and walker2 just after
+            toInsert = Cell(content, walker2)
+            walker1.set_next(toInsert)
+            return 1#success
 
 
 
 
 l = LinkedList()
 
-l.push(5)
-l.push(8)
-l.push(-2)
-l.push(-55.9)
+l.pushTail(5)
+
+l.pushTail(8)
+
+l.pushTail(-2)
+
+l.pushTail(-55.9)
 l.push(13.2)
 l.push(-1)
 
 print(l)
-print("h", l.get_head(), " t", l.get_tail())
-print(l.popTail())
+print("head", l.get_head(), "tail", l.get_tail(), "length", l.length())
+print(l)
+l.pushAtIndex(18, 1)
 print(l)
