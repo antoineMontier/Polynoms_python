@@ -135,6 +135,15 @@ class LinkedList:
             return 1#success
 
 
+    def get(self, index):
+        assert not(index < 0 or index >= self.length())
+        i = 0
+        walker = self._head
+        while(i < index):
+            walker = walker.get_next()
+            i+= 1
+        return walker.get_content()
+
 
 
 l = LinkedList()
@@ -152,5 +161,5 @@ l.push(-1)
 print(l)
 print("head", l.get_head(), "tail", l.get_tail(), "length", l.length())
 print(l)
-l.pushAtIndex(18, 1)
-print(l)
+for i in range(l.length()):
+    print(l.get(i))
