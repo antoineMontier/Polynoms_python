@@ -281,11 +281,52 @@ class LinkedList:
             walker = walker.get_next()
         if(predicate(self._tail.get_content())):
             self._tail.set_content(fonction(self._tail.get_content()))
-
-#map W condition
-#indexOf
-#clear
-#toArray
+    def clear(self):
+        self._tail = Cell(None, None)
+        self._head = Cell(None, None)
+    def indexOf(self, content):
+        if(self.isEmpty()):
+            return -1
+        else:
+            walker = self._head
+            i = 0
+            while(walker != self._tail):
+                if(walker.get_content() == content):
+                    return i
+                walker = walker.get_next()
+                i += 1
+            if(walker.get_content() == content):
+                return i
+            return -1
+    def toArray(self):
+        res = []
+        if(self.isEmpty()):
+            return res
+        else:
+            walker = self._head
+            while(walker != self._tail):
+                res.append(walker.get_content())
+                walker = walker.get_next()
+            res.append(walker.get_content())
+        return res
+    @staticmethod
+    def toLinkedList(array):
+        res = LinkedList()
+        if(len(array) == 0):
+            return res
+        else:
+            for i in range(len(array)):
+                res.pushTail(array[i])
+        return res
+    @staticmethod
+    def copyOf(linkedlist):
+        res = LinkedList()
+        if(linkedlist.isEmpty()):
+            return res
+        else:
+            for i in range(linkedlist.length()):
+                res.pushTail(linkedlist.get(i))
+        return res
 
 l = LinkedList()
 k = LinkedList()
@@ -297,7 +338,6 @@ l.pushTail(-55.9)
 l.push(13.2)
 l.push(-1)
 l.pushTail(0)
-
 
 k.pushTail(1)
 
@@ -312,7 +352,8 @@ k.pushTail(6)
 k.pushTail(7)
 
 
-#print("l", l)
+
+print("l", l)
 print("k", k)
 """
 print("head", l.get_head(), "tail", l.get_tail(), "length", l.length())
@@ -325,6 +366,23 @@ print(l.popAtIndex(2))
 print(l.contains(5))
 l.merge(k)
 """
-
 k.mapIf(lambda a : a % 2 == 0, lambda a : a*a)
 print(k)
+
+t = k.toArray()
+
+print(t)
+
+o = LinkedList.toLinkedList(t)
+
+
+o.filter(lambda a : a > 2)
+print(o)
+
+m = LinkedList.copyOf(l).bubble_sort(lambda a , b : a >= b)
+
+print(m)
+
+m.mapIf(lambda a : a % 2 == 0, lambda a : a + 0.01)
+
+print(m)
