@@ -1,5 +1,4 @@
 from Cell import *
-
 class LinkedList:
 
     def __init__(self):
@@ -327,62 +326,3 @@ class LinkedList:
             for i in range(linkedlist.length()):
                 res.pushTail(linkedlist.get(i))
         return res
-
-l = LinkedList()
-k = LinkedList()
-
-l.pushTail(5)
-l.pushTail(8)
-l.pushTail(-2)
-l.pushTail(-55.9)
-l.push(13.2)
-l.push(-1)
-l.pushTail(0)
-
-k.pushTail(1)
-
-k.pushTail(2)
-k.pushTail(3)
-
-k.pushTail(4)
-
-k.pushTail(5)
-
-k.pushTail(6)
-k.pushTail(7)
-
-
-
-print("l", l)
-print("k", k)
-"""
-print("head", l.get_head(), "tail", l.get_tail(), "length", l.length())
-print(l)
-for i in range(l.length()):
-print(l.get(i))
-l.reverse()
-l.set(3, 0)
-print(l.popAtIndex(2))
-print(l.contains(5))
-l.merge(k)
-"""
-k.mapIf(lambda a : a % 2 == 0, lambda a : a*a)
-print(k)
-
-t = k.toArray()
-
-print(t)
-
-o = LinkedList.toLinkedList(t)
-
-
-o.filter(lambda a : a > 2)
-print(o)
-
-m = LinkedList.copyOf(l).bubble_sort(lambda a , b : a >= b)
-
-print(m)
-
-m.mapIf(lambda a : a % 2 == 0, lambda a : a + 0.01)
-
-print(m)
