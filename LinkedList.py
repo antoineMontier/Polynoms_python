@@ -250,7 +250,6 @@ class LinkedList:
             if(self.length() < 3):
                 return #the list is filtered
             #then remove the body :
-
             walker1=self._head
             walker2=self._head.get_next()
             while(walker2 != self._tail):
@@ -262,8 +261,28 @@ class LinkedList:
                 else:
                     walker1 = walker2
                     walker2 = walker2.get_next()
+    def map(self, fonction):
+        if(self.isEmpty()):
+            return
+        else:
+            walker = self._head
+        while(walker != self._tail):
+            walker.set_content(fonction(walker.get_content()))
+            walker = walker.get_next()
+        self._tail.set_content(fonction(self._tail.get_content()))
+    def mapIf(self, predicate, fonction):
+        if(self.isEmpty()):
+            return
+        else:
+            walker = self._head
+        while(walker != self._tail):
+            if(predicate(walker.get_content())):
+                walker.set_content(fonction(walker.get_content()))
+            walker = walker.get_next()
+        if(predicate(self._tail.get_content())):
+            self._tail.set_content(fonction(self._tail.get_content()))
 
-
+#map W condition
 #indexOf
 #clear
 #toArray
@@ -281,16 +300,20 @@ l.pushTail(0)
 
 
 k.pushTail(1)
+
 k.pushTail(2)
 k.pushTail(3)
+
 k.pushTail(4)
+
 k.pushTail(5)
+
 k.pushTail(6)
 k.pushTail(7)
 
 
-print("l", l)
-#print("k", k)
+#print("l", l)
+print("k", k)
 """
 print("head", l.get_head(), "tail", l.get_tail(), "length", l.length())
 print(l)
@@ -303,5 +326,5 @@ print(l.contains(5))
 l.merge(k)
 """
 
-l.filter(lambda a : (a % 2) == 0)
-print(l)
+k.mapIf(lambda a : a % 2 == 0, lambda a : a*a)
+print(k)
