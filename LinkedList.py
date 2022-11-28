@@ -92,7 +92,7 @@ class LinkedList:
                 res += 1
                 walker = walker.get_next()
             return res
-    def pushAtIndex(self, content, index):  #returns 1 if sucessful ; 0 if not
+    def pushAtIndex(self, content, index=int):  #returns 1 if sucessful ; 0 if not
         if(index < 0 or index > self.length()):
             return 0 #error
         elif(index == 0):
@@ -119,7 +119,7 @@ class LinkedList:
             toInsert = Cell(content, walker2)
             walker1.set_next(toInsert)
             return 1#success
-    def get(self, index):
+    def get(self, index=int):
         assert not(index < 0 or index >= self.length())
         i = 0
         walker = self._head
@@ -127,7 +127,7 @@ class LinkedList:
             walker = walker.get_next()
             i+= 1
         return walker.get_content()
-    def popAtIndex(self, index):
+    def popAtIndex(self, index=int):
         assert not(index < 0 or index >= self.length())
         if(index == 0):
             return self.pop()#head
@@ -141,11 +141,10 @@ class LinkedList:
                 walker1 = walker2
                 walker2 = walker2.get_next()
                 i += 1
-            print(walker1, walker2)
             #here walker1 is just before the index and walker2 on the index
             walker1.set_next(walker2.get_next())
             return walker2.get_content()
-    def set(self, content, index):
+    def set(self, content, index=int):
         assert not(index < 0 or index >= self.length())
         i = 0
         walker = self._head
@@ -164,6 +163,45 @@ class LinkedList:
                 self.set(self.get(i), self.length()-i-1)
                 self.set(tmp, i)
                 i += 1
+    def contains(self, content):
+        if(self.isEmpty()):
+            return 0
+        walker = self._head
+        if(walker.get_content() == content):
+                return True
+        while(walker!= self._tail):
+            walker = walker.get_next()
+            if(walker.get_content() == content):
+                return True
+        return False
+    def maximum_index(self, superior):
+        if(self.isEmpty()):
+            return -1 #error
+        elif(self._head == self._tail):
+            return self._head.get_content()
+        else:
+            ind = 0
+            walker = self._head
+            i = 0
+            while(walker!= self._tail):
+                if(superior(walker.get_content(), self.get(ind)) == True):
+                    ind = i
+                walker = walker.get_next()
+                i += 1
+            if(superior(walker.get_content(), self.get(ind)) == True):
+                    ind = i
+            return ind
+    def bubble_sort(self, superior):
+        if(self.isEmpty() or self._head == self._tail):
+            return self
+        else:
+            for i in range(self.length() - 1):
+                for j in range(self.length()-1 - i):
+                    if(superior(self.get(j), self.get(j+1)) == True):
+                        tmp = self.get(j)
+                        self.set(self.get(j+1), j)
+                        self.set(tmp, j+1)
+        return self
 
 
 
@@ -178,15 +216,19 @@ l.pushTail(-2)
 l.pushTail(-55.9)
 l.push(13.2)
 l.push(-1)
-
+l.pushTail(0)
 
 print(l)
 """
 print("head", l.get_head(), "tail", l.get_tail(), "length", l.length())
 print(l)
 for i in range(l.length()):
-    print(l.get(i))
-"""
+print(l.get(i))
 l.reverse()
-#l.set(3, 0)
+l.set(3, 0)
+print(l.popAtIndex(2))
+print(l.contains(5))
+"""
+print(l.bubble_sort(lambda a, b : a >= b))
+
 print(l)
