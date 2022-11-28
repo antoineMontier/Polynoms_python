@@ -5,10 +5,8 @@ class LinkedList:
     def __init__(self):
         self._head = Cell(None, None)
         self._tail = Cell(None, None)
-
     def isEmpty(self):
         return self._head == Cell(None, None)
-
     def push(self, content):
         #handle empty list
         if(self.isEmpty()):
@@ -22,7 +20,6 @@ class LinkedList:
         else:
             newHead = Cell(content, self._head)
             self._head = newHead
-
     def pushTail(self, content):
         #handle empty list
         if(self.isEmpty()):
@@ -39,7 +36,6 @@ class LinkedList:
             newTail = Cell(content, None)
             self._tail.set_next(newTail)
             self._tail = newTail
-
     def __str__(self):
         if(self.isEmpty()):
             return "[empty]"
@@ -52,13 +48,10 @@ class LinkedList:
                 res += walker.__str__() + ", "
                 walker = walker.get_next()
             return res + self._tail.__str__() + "]"
-
     def get_head(self):
         return self._head
-
     def get_tail(self):
         return self._tail
-
     def pop(self):#removes the head of the linked list and returns it
         if(self.isEmpty()):
             return None
@@ -71,7 +64,6 @@ class LinkedList:
             res = self._head.get_content()#keep in memory the value
             self._head = self._head.get_next()#shorten the list
             return res #end
-
     def popTail(self):
         if(self.isEmpty()):
             return None
@@ -88,7 +80,6 @@ class LinkedList:
                 walker = walker.get_next()
             self._tail = walker
             return res #end
-
     def length(self):
         if(self.isEmpty()):
             return 0
@@ -101,10 +92,6 @@ class LinkedList:
                 res += 1
                 walker = walker.get_next()
             return res
-
-
-
-
     def pushAtIndex(self, content, index):  #returns 1 if sucessful ; 0 if not
         if(index < 0 or index > self.length()):
             return 0 #error
@@ -132,8 +119,6 @@ class LinkedList:
             toInsert = Cell(content, walker2)
             walker1.set_next(toInsert)
             return 1#success
-
-
     def get(self, index):
         assert not(index < 0 or index >= self.length())
         i = 0
@@ -142,7 +127,6 @@ class LinkedList:
             walker = walker.get_next()
             i+= 1
         return walker.get_content()
-
     def popAtIndex(self, index):
         assert not(index < 0 or index >= self.length())
         if(index == 0):
@@ -161,11 +145,32 @@ class LinkedList:
             #here walker1 is just before the index and walker2 on the index
             walker1.set_next(walker2.get_next())
             return walker2.get_content()
+    def set(self, content, index):
+        assert not(index < 0 or index >= self.length())
+        i = 0
+        walker = self._head
+        while(i < index):
+            walker = walker.get_next()
+            i+= 1
+        walker.set_content(content)
+
+    def reverse(self):
+        if(self.isEmpty() or self._head == self._tail):
+            return
+        else:
+            i = 0
+            while(i < self.length()/2):
+                tmp = self.get(self.length()-i-1)
+                self.set(self.get(i), self.length()-i-1)
+                self.set(tmp, i)
+                i += 1
+
 
 
 l = LinkedList()
 
 l.pushTail(5)
+
 l.pushTail(8)
 
 l.pushTail(-2)
@@ -182,5 +187,6 @@ print(l)
 for i in range(l.length()):
     print(l.get(i))
 """
-print(l.popAtIndex(1))
+l.reverse()
+#l.set(3, 0)
 print(l)
