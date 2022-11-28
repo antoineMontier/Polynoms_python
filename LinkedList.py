@@ -152,7 +152,6 @@ class LinkedList:
             walker = walker.get_next()
             i+= 1
         walker.set_content(content)
-
     def reverse(self):
         if(self.isEmpty() or self._head == self._tail):
             return
@@ -234,6 +233,40 @@ class LinkedList:
                 res.pushTail(walker.get_content())
                 walker = walker.get_next()
             return res
+    def filter(self, predicate):
+        if(self.isEmpty()):
+            return
+        else:
+            #fist remove the header part :
+            while(predicate(self._head.get_content()) == False):
+                self.pop()
+                if(self.isEmpty()):
+                    return
+            #then remove the tail part :
+            while(predicate(self._tail.get_content()) == False):
+                self.popTail()
+                if(self.isEmpty()):
+                    return
+            if(self.length() < 3):
+                return #the list is filtered
+            #then remove the body :
+
+            walker1=self._head
+            walker2=self._head.get_next()
+            while(walker2 != self._tail):
+                if(predicate(walker2.get_content()) == False):
+                    walker1.set_next(walker2.get_next())
+                    walker2.set_content(None)
+                    walker2.set_next(None)
+                    walker2 = walker1.get_next()
+                else:
+                    walker1 = walker2
+                    walker2 = walker2.get_next()
+
+
+#indexOf
+#clear
+#toArray
 
 l = LinkedList()
 k = LinkedList()
@@ -257,7 +290,7 @@ k.pushTail(7)
 
 
 print("l", l)
-print("k", k)
+#print("k", k)
 """
 print("head", l.get_head(), "tail", l.get_tail(), "length", l.length())
 print(l)
@@ -270,5 +303,5 @@ print(l.contains(5))
 l.merge(k)
 """
 
-
-print(l.dropWhile(lambda a : a>-2))
+l.filter(lambda a : (a % 2) == 0)
+print(l)
