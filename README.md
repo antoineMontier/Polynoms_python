@@ -1,1 +1,1 @@
-# linkedList_python
+Polynoms_python
