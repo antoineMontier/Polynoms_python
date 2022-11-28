@@ -68,6 +68,26 @@ class Polynom:
                 return True
             else:
                 return False
+    def derivate(self):
+        res = Polynom()
+        if(self.length() == 0):
+            return res
+        else:
+            for i in range(self.length()):
+                if(self._monoms.get(i).get_pow() > 0):
+                    res.add(self._monoms.get(i).get_coef()*self._monoms.get(i).get_pow(), self._monoms.get(i).get_pow()-1)
+            res.clean()
+            return res
+    def primitive(self):
+        res = Polynom()
+        if(self.length() == 0):
+                    return res
+        else:
+            for i in range(self.length()):
+                res.add(self._monoms.get(i).get_coef()/(self._monoms.get(i).get_pow() + 1), self._monoms.get(i).get_pow()+1)
+        res.clean()
+        return res
+
 
 p = Polynom()
 p.add(-4, 1)
@@ -81,6 +101,7 @@ q.add(-3, 1)
 q.add(-2, 5)
 q.add(-1, 120)
 q.add(0, 1)
+q.add(10, 0)
 q.clean()
 
 
@@ -90,3 +111,8 @@ print("q + p", q + p)
 print("q - p", q - p)
 print("q * p", q * p)
 print("q == p", q == p)
+print("q'", q.derivate())
+print("Q", q.primitive())
+print("Q'", q.primitive().derivate())
+print(q.derivate().primitive())
+print(q.derivate().primitive() == q.primitive().derivate())
