@@ -1,5 +1,9 @@
+from math import log10
+import sys
 from Monom import *
 class Polynom:
+    MIN = -100
+    PRECISION = 0.01
     def __init__(self):
         self._monoms = LinkedList()
     def __str__(self):
@@ -108,28 +112,42 @@ class Polynom:
             res.add(self.evaluate(a), 0) #f(a)
             res.clean()
             return res
+    def max_deg(self):
+        res = 0
+        for i in range(self.length()):
+            res = max(res, self._monoms.get(i).get_pow())
+        return res
+    def roots(self) -> LinkedList:
+        res = LinkedList()
+        if(self.length() == 0):
+            return res
+        else:
+            #store signe
+            prev_sign = sign = self.evaluate(Polynom.MIN)>=0
+            deep_search = False
+            prev_x = x = Polynom.MIN
+            while(x < -Polynom.MIN):
+                if(sign != prev_sign):
+                    deep_search = True
+                    #relauch a loop
+                    i = prev_x
+                    sign = prev_sign 
+                    while(i < x and deep_search):
+                        if(prev_sign != sign):
+                            res.push(round(i - Polynom.PRECISION*Polynom.PRECISION/2, round(2*log10(1/Polynom.PRECISION))))
+                            deep_search = False
+                        prev_sign = sign
+                        sign = self.evaluate(i) >= 0
+                        i+= pow(Polynom.PRECISION, 5)
 
-
-
-
-p = Polynom()
-p.add(5, 0)
-
-
-p.clean()
-
-
-q = Polynom()
-q.add(-3, 1)
-q.add(-2, 0)
-q.add(-1, 1)
-q.add(0, 1)
-q.add(10, 0)
-q.clean()
-
-
-print("p = ", p)
-print("q = ", q)
-
-print("q(2) =", q.evaluate(2))
-print(p.tangent(-1))
+                prev_sign = sign
+                sign = self.evaluate(x) >= 0
+                prev_x = x
+                #print calcul progression bar :
+                if(abs(x % -2*Polynom.MIN/100) < Polynom.PRECISION):
+                    print(".", end="")
+                    sys.stdout.flush()
+                x += Polynom.PRECISION
+            print("")
+            res.bubble_sort(lambda a, b : a >= b)
+            return res
