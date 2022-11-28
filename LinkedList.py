@@ -202,23 +202,62 @@ class LinkedList:
                         self.set(self.get(j+1), j)
                         self.set(tmp, j+1)
         return self
-
-
+    def merge(self, other):
+        if(self.isEmpty() and other.isEmpty()):
+            return None
+        elif(self.isEmpty()):
+            return other
+        elif(other.isEmpty()):
+            return self
+        else:
+            for i in range(other.length()):
+                self.pushTail(other.get(i))
+    def takeWhile(self, predicate):
+        res = LinkedList()
+        if(self.isEmpty()):
+            return res
+        else:
+            walker = self._head
+            while(predicate(walker.get_content()) == True):
+                res.pushTail(walker.get_content())
+                walker = walker.get_next()
+            return res
+    def dropWhile(self, predicate):
+        res = LinkedList()
+        if(self.isEmpty()):
+            return res
+        else:
+            walker = self._head
+            while(predicate(walker.get_content()) == True):
+                walker = walker.get_next()
+            while(walker != self._tail):
+                res.pushTail(walker.get_content())
+                walker = walker.get_next()
+            return res
 
 l = LinkedList()
+k = LinkedList()
 
 l.pushTail(5)
-
 l.pushTail(8)
-
 l.pushTail(-2)
-
 l.pushTail(-55.9)
 l.push(13.2)
 l.push(-1)
 l.pushTail(0)
 
-print(l)
+
+k.pushTail(1)
+k.pushTail(2)
+k.pushTail(3)
+k.pushTail(4)
+k.pushTail(5)
+k.pushTail(6)
+k.pushTail(7)
+
+
+print("l", l)
+print("k", k)
 """
 print("head", l.get_head(), "tail", l.get_tail(), "length", l.length())
 print(l)
@@ -228,7 +267,8 @@ l.reverse()
 l.set(3, 0)
 print(l.popAtIndex(2))
 print(l.contains(5))
+l.merge(k)
 """
-print(l.bubble_sort(lambda a, b : a >= b))
 
-print(l)
+
+print(l.dropWhile(lambda a : a>-2))
